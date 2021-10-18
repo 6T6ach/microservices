@@ -12,6 +12,7 @@ if (null == $id) {
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST)) { // on initialise nos erreurs 
+    $image = null;
     $nameError = null;
     $firstnameError = null;
     $ageError = null;
@@ -22,6 +23,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST)) { // on initialise n
     $metierError = null;
     $urlError = null; // On assigne nos valeurs 
 
+
+    $image = $_FILES['image'];
     $name = $_POST['name'];
     $firstname = $_POST['firstname'];
     $age = $_POST['age'];
@@ -33,6 +36,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST)) { // on initialise n
     $url = $_POST['url']; // On verifie que les champs sont remplis 
     $valid = true;
 
+    if (empty($image)) {
+        $imageError = 'Please upload your photo';
+        $valid = false;
+    }
     if (empty($name)) {
         $nameError = 'Please enter Name';
         $valid = false;
@@ -85,9 +92,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST)) { // on initialise n
         $pdo = Database::connect();
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-        $sql = "UPDATE users SET name = ?,firstname = ?,age = ?,tel = ?, email = ?, pays = ?, comment = ?, metier = ?, url = ? WHERE id = ?";
+        $sql = "UPDATE users SET image = ?, name = ?, firstname = ?, age = ?,tel = ?, email = ?, pays = ?, comment = ?, metier = ?, url = ? WHERE id = ?";
         $q = $pdo->prepare($sql);
-        $q->execute(array($name, $firstname, $age, $tel, $email, $pays, $comment, $metier, $url, $id));
+        $q->execute(array($image, $name, $firstname, $age, $tel, $email, $pays, $comment, $metier, $url, $id));
         Database::disconnect();
         header("Location: index.php");
     }
@@ -99,6 +106,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST)) { // on initialise n
     $q = $pdo->prepare($sql);
     $q->execute(array($id));
     $data = $q->fetch(PDO::FETCH_ASSOC);
+    $image = $data['image'];
     $name = $data['name'];
     $firstname = $data['firstname'];
     $age = $data['age'];
@@ -141,6 +149,18 @@ include('./inc/head.php');
 
         <form class="border border-3 border-dark mt-5 flex-wrap bg-light" method="GET" action="update.php?id=<?php echo $id; ?>">
 
+            <div class="control-group m-3<?php echo !empty($imageError) ? 'error' : ''; ?>">
+                <label class="control-label fw-bold">Image :</label>
+
+                <div class="controls">
+                    <input class="form-control w-100" id="validationCustom11" name="image" type="file" placeholder="Image" value="<?php echo !empty($image) ? $image : ''; ?>">
+                    <?php if (!empty($imageError)) : ?>
+                        <span class="help-inline"><?php echo $imageError; ?></span>
+                    <?php endif; ?>
+                </div>
+
+
+            </div>
 
             <div class="control-group m-3<?php echo !empty($nameError) ? 'error' : ''; ?>">
                 <label class="control-label fw-bold">Name :</label>

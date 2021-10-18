@@ -50,6 +50,18 @@ include('./inc/head.php');
             </div>
 
             <div class="form-horizontal mt-5 border border-3 border-dark bg-light">
+                <div class="control-group m-4">
+                    <label class="control-label fw-bold">Image :</label>
+
+
+                    <div class="controls">
+                        <label class="checkbox">
+                            <?php echo $data['image']; ?>
+                        </label>
+                    </div>
+
+                </div>
+
 
                 <div class="control-group m-4">
                     <label class="control-label fw-bold">Name :</label>

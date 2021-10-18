@@ -7,6 +7,7 @@ session_start();
 if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST)) {
 
     //on initialise nos messages d'erreurs; 
+    $imageError = '';
     $nameError = '';
     $firstnameError = '';
     $ageError = '';
@@ -17,20 +18,69 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST)) {
     $metierError = '';
     $urlError = '';
 
-    // on recupère nos valeurs 
-    $name = htmlentities(trim($_POST['name']));
-    $firstname = htmlentities(trim($_POST['firstname']));
-    $age = htmlentities(trim($_POST['age']));
-    $tel = htmlentities(trim($_POST['tel']));
-    $email = htmlentities(trim($_POST['email']));
 
-    $pays = htmlentities(trim($_POST['pays']));
-    $comment = htmlentities(trim($_POST['comment']));
-    $metier = htmlentities(trim($_POST['metier']));
-    $url = htmlentities(trim($_POST['url']));
+    // on recupère nos valeurs 
+    // Récupération du nom l'images
+    $image = $_FILES['image']['name'];
+    echo ' $_FILES';
+    var_dump($_FILES);
+    var_dump($_FILES['image']['name']);
+    $name = htmlspecialchars(trim($_POST['name']));
+    $firstname = htmlspecialchars(trim($_POST['firstname']));
+    $age = htmlspecialchars(trim($_POST['age']));
+    $tel = htmlspecialchars(trim($_POST['tel']));
+    $email = htmlspecialchars(trim($_POST['email']));
+
+    $pays = htmlspecialchars(trim($_POST['pays']));
+    $comment = htmlspecialchars(trim($_POST['comment']));
+    $metier = htmlspecialchars(trim($_POST['metier']));
+    $url = htmlspecialchars(trim($_POST['url']));
+    var_dump($_REQUEST);
+
+    // *************************************************************************
+
+    // Testons si le fichier a bien été envoyé et s'il n'y a pas d'erreur
+if (isset($_FILES['image']) and $_FILES['image']['error'] == 0) {
+
+    echo "====> Fichier reçu 👍<br>";
+
+    // Testons si le fichier n'est pas trop gros
+    if ($_FILES['image']['size'] <= 5000000) {
+        echo "====> Taille Fichier < 1Mo 👍<br>";
+
+        // Testons si l'extension est autorisée
+        $infosfichier = pathinfo($_FILES['image']['name']);
+        $extension_upload = $infosfichier['extension'];
+        $extensions_autorisees = array('jpg', 'jpeg', 'gif', 'png');
+
+        if (in_array($extension_upload, $extensions_autorisees)) {
+            echo "====> Extension Autorisée 👍<br>";
+
+            // On peut valider le fichier et le stocker définitivement
+
+            move_uploaded_file($_FILES['image']['tmp_name'], 'uploads/images/' . basename($_FILES['image']['name']));
+            //  FIXME Attention la même image peut pas être téléversée 2 fois 
+            echo "====> Téléversement terminé 👍<br>";
+        } else {
+            echo "⚠ Erreur: Ce format de fichier n'est pas autorisé";
+        }
+    } else {
+        echo "⚠ Erreur: le fichier dépasse 1 Mo";
+    }
+}
+
+    // *************************************************************************
 
     // on vérifie nos champs 
     $valid = true;
+    if (empty($image)) {
+        $imageError = 'Please insert un image';
+        $valid = false;
+    }
+    // else if (!preg_match(" ", $image)) {
+    //     $imageError = "Only jpg images";
+    // }
+
     if (empty($name)) {
         $nameError = 'Please enter Name';
         $valid = false;
@@ -93,9 +143,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST)) {
     if ($valid) {
         $pdo = Database::connect();
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $sql = "INSERT INTO users (name, firstname,age,tel, email, pays,comment, metier, url) values(?, ?, ?, ? , ? , ? , ? , ?, ?)";
+        $sql = "INSERT INTO users (image, name, firstname,age,tel, email, pays,comment, metier, url) values(?, ?, ?, ?, ? , ? , ? , ? , ?, ?)";
         $q = $pdo->prepare($sql);
-        $q->execute(array($name, $firstname, $age, $tel, $email, $pays, $comment, $metier, $url));
+        $q->execute(array($image, $name, $firstname, $age, $tel, $email, $pays, $comment, $metier, $url));
         Database::disconnect();
         header("Location: index.php");
     }
@@ -127,7 +177,21 @@ include('./inc/head.php');
         <div class="container">
             <div class="row d-flex justify-content-center">
 
-                <form class="row g-3 needs-validation w-75 border border-3 border-dark mt-5 pt-4 pb-5" novalidate method="POST" action="add.php">
+                <form class="row g-3 needs-validation w-75 border border-3 border-dark mt-5 pt-4 pb-5" novalidate method="POST" action="add.php" enctype="multipart/form-data">
+                    <div class="col-md-4 <?php echo !empty($imageError) ? 'error' : ''; ?>">
+
+                        <label for="validationCustom11" class="form-label"><b>Profil image :</b></label>
+
+                        <input type="file" name="image" class="form-control" id="validationCustom11" value="<?php echo !empty($image) ? $image : ''; ?>" required>
+                        <?php if (!empty($imageError)) : ?>
+                            <span class="help-inline"><?php echo $imageError; ?></span>
+                        <?php endif; ?>
+
+
+                        <div class="valid-feedback">
+                            Looks good!
+                        </div>
+                    </div>
 
                     <div class="col-md-4 <?php echo !empty($nameError) ? 'error' : ''; ?>">
 
@@ -137,6 +201,7 @@ include('./inc/head.php');
                         <?php if (!empty($nameError)) : ?>
                             <span class="help-inline"><?php echo $nameError; ?></span>
                         <?php endif; ?>
+
 
                         <div class="valid-feedback">
                             Looks good!
@@ -231,7 +296,7 @@ include('./inc/head.php');
 
                         <label class="checkbox-inline"><b>Metier :</b> </label><br>
 
-                        <input type="checkbox" name="metier" value="dev" <?php if (isset($metier) && $metier == "dev") echo "checked"; ?>> Developpeur <br>
+                        <input type="checkbox" name="metier" value="dev" <?php if (isset($metier) && $metier == "dev" || empty($metier)) echo "checked"; ?>> Developpeur <br>
 
                         <input type="checkbox" name="metier" value="integrateur" <?php if (isset($metier) && $metier == "integrateur") echo "checked"; ?>> Integrateur<br>
 
