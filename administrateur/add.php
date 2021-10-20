@@ -93,8 +93,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST)) {
     if (empty($firstname)) {
         $firstnameError = 'Please enter firstname';
         $valid = false;
-    } else if (!preg_match("/^[a-zA-Z ]*$/", $name)) {
-        $nameError = "Only letters and white space allowed";
+    } else if (!preg_match("/^[a-zA-Z ]*$/", $firstname)) {
+        $firstnameError = "Only letters and white space allowed";
     }
 
     if (empty($email)) {
