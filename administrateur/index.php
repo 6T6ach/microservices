@@ -12,12 +12,12 @@ include '../config.php';
 include('./inc/head.php');
 ?>
 
-<body class="bg-dark bg-opacity-50">
+<body>
     <?php
     include SITE_ROOT.'/inc/header.php';
     ?>
 
-    <div class="container-fluid border border-dark pt-5 justify-content-center w-100">
+    <div class="container-fluid border border-dark pt-5 justify-content-center w-100 bg-dark bg-opacity-50">
         <div class="row">
             <h2 class="title text-center text-light">CRUD EN PHP</h2>
         </div>

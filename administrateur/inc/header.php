@@ -12,7 +12,7 @@
                 <!-- CONNECTÉ -->
                 <div class="col-md-4 d-flex flex-wrap align-items-center gap-2 ">
                     <a class="link-dark" href="#">ACHAT</a>
-                    <a class="link-dark" href="#">VENTE</a>
+                    <a class="link-dark" href="#">Ajouter un microservice</a>
                     <a class="link-dark" href="#">NOTIF</a>
 
                     <!-- DEBUT  -->
