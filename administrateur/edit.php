@@ -56,7 +56,7 @@ include('./inc/head.php');
 
                     <div class="controls">
                         <label class="checkbox">
-                            <?php echo $_FILES['image']['name']; ?>
+                            <?php echo $data['image'] ?>
                         </label>
                     </div>
 

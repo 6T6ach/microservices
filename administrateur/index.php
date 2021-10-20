@@ -1,5 +1,6 @@
 <?php
 session_start();
+include '../config.php';
 ?>
 
 
@@ -13,7 +14,7 @@ include('./inc/head.php');
 
 <body class="bg-dark bg-opacity-50">
     <?php
-    include('./admin/inc/header.php');
+    include SITE_ROOT.'/inc/header.php';
     ?>
 
     <div class="container-fluid border border-dark pt-5 justify-content-center w-100">
@@ -67,7 +68,7 @@ include('./inc/head.php');
                         include 'database.php'; //on inclut notre fichier de connection 
 
                         $pdo = Database::connect(); //on se connecte à la base 
-                        var_dump($pdo);
+                        // var_dump($pdo);
                         $sql = 'SELECT * FROM users ORDER BY id DESC'; //on formule notre requete 
                         foreach ($pdo->query($sql) as $row) :
                             //on cree les lignes du tableau avec chaque valeur retournée

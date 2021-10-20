@@ -9,6 +9,7 @@ echo '$_POST';
 var_dump($_POST);
 
 // BDD - Table user
+// REVIEW récuperation de email et mdp et role(a ajouter dans la bdd) dans la bdd
 $email = 'a@b.c';
 $passwd = '123456';
 $pseudo = 'Nico';
