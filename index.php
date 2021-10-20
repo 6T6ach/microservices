@@ -23,9 +23,7 @@ include('./inc/head.php');
             <small>11 mins ago</small>
             <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
         </div>
-        <div class="toast-body">
-            Hello, world! This is a toast message.
-        </div>
+       
     </div>
     <main class="container min-vh-100">
 
@@ -54,6 +52,7 @@ include('./inc/head.php');
                 <div class="col-md-4 p-2">
                     <div class="border border-dark p-2 h-100">
                         <h3><?= $donnees['titre'] ?></h3>
+                        <p><img src="https://source.unsplash.com/services/1600x900" alt="" width="150"></p>
                         <p><small><?= $donnees['auteur'] ?></small></p>
                         <p><?= $donnees['contenu'] ?></p>
                         <p>
