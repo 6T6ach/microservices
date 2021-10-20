@@ -17,12 +17,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST)) {
     $commentError = '';
     $metierError = '';
     $urlError = '';
+    $Error = '';
 
 
     // on recupère nos valeurs 
     // Récupération du nom l'images
-    $image = $_FILES['image']['name'];
-    echo ' $_FILES';
+    $image = htmlspecialchars($_FILES['image']['name']);
+
     var_dump($_FILES);
     var_dump($_FILES['image']['name']);
     $name = htmlspecialchars(trim($_POST['name']));
@@ -35,39 +36,40 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST)) {
     $comment = htmlspecialchars(trim($_POST['comment']));
     $metier = htmlspecialchars(trim($_POST['metier']));
     $url = htmlspecialchars(trim($_POST['url']));
+    $password = htmlspecialchars(trim($_POST['password']));
     var_dump($_REQUEST);
 
     // *************************************************************************
 
     // Testons si le fichier a bien été envoyé et s'il n'y a pas d'erreur
-if (isset($_FILES['image']) and $_FILES['image']['error'] == 0) {
+    if (isset($_FILES['image']) and $_FILES['image']['error'] == 0) {
 
-    echo "====> Fichier reçu 👍<br>";
+        echo "====> Fichier reçu 👍<br>";
 
-    // Testons si le fichier n'est pas trop gros
-    if ($_FILES['image']['size'] <= 5000000) {
-        echo "====> Taille Fichier < 1Mo 👍<br>";
+        // Testons si le fichier n'est pas trop gros
+        if ($_FILES['image']['size'] <= 5000000) {
+            echo "====> Taille Fichier < 1Mo 👍<br>";
 
-        // Testons si l'extension est autorisée
-        $infosfichier = pathinfo($_FILES['image']['name']);
-        $extension_upload = $infosfichier['extension'];
-        $extensions_autorisees = array('jpg', 'jpeg', 'gif', 'png');
+            // Testons si l'extension est autorisée
+            $infosfichier = pathinfo($_FILES['image']['name']);
+            $extension_upload = $infosfichier['extension'];
+            $extensions_autorisees = array('jpg', 'jpeg', 'gif', 'png');
 
-        if (in_array($extension_upload, $extensions_autorisees)) {
-            echo "====> Extension Autorisée 👍<br>";
+            if (in_array($extension_upload, $extensions_autorisees)) {
+                echo "====> Extension Autorisée 👍<br>";
 
-            // On peut valider le fichier et le stocker définitivement
+                // On peut valider le fichier et le stocker définitivement
 
-            move_uploaded_file($_FILES['image']['tmp_name'], 'uploads/images/' . basename($_FILES['image']['name']));
-            //  FIXME Attention la même image peut pas être téléversée 2 fois 
-            echo "====> Téléversement terminé 👍<br>";
+                move_uploaded_file($_FILES['image']['tmp_name'], 'uploads/images/' . basename($_FILES['image']['name']));
+                //  FIXME Attention la même image peut pas être téléversée 2 fois 
+                echo "====> Téléversement terminé 👍<br>";
+            } else {
+                echo "⚠ Erreur: Ce format de fichier n'est pas autorisé";
+            }
         } else {
-            echo "⚠ Erreur: Ce format de fichier n'est pas autorisé";
+            echo "⚠ Erreur: le fichier dépasse 1 Mo";
         }
-    } else {
-        echo "⚠ Erreur: le fichier dépasse 1 Mo";
     }
-}
 
     // *************************************************************************
 
@@ -143,11 +145,16 @@ if (isset($_FILES['image']) and $_FILES['image']['error'] == 0) {
     if ($valid) {
         $pdo = Database::connect();
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $sql = "INSERT INTO users (image, name, firstname,age,tel, email, pays,comment, metier, url) values(?, ?, ?, ?, ? , ? , ? , ? , ?, ?)";
+        $sql = "INSERT INTO users (image, name, firstname, age, tel, email, pays, comment, metier, url, password) values(?, ?, ?, ?, ? , ? , ? , ? , ?, ?, ?)";
         $q = $pdo->prepare($sql);
-        $q->execute(array($image, $name, $firstname, $age, $tel, $email, $pays, $comment, $metier, $url));
+        $q->execute(array($image, $name, $firstname, $age, $tel, $email, $pays, $comment, $metier, $url, $password));
         Database::disconnect();
         header("Location: index.php");
+    }
+
+    if (empty($password)) {
+        $passwordError = 'Please enter a password';
+        $valid = false;
     }
 }
 
@@ -336,6 +343,22 @@ include('./inc/head.php');
                             <span class=" help-inline"><?php echo $commentError; ?></span>
                         <?php endif; ?>
                     </div>
+
+                    <div class="col-md-4 <?php echo !empty($passwordError) ? 'error' : ''; ?>">
+                        <label for="validationCustom02" class="form-label"><b>password :</b></label>
+
+                        <input type="text" class="form-control" id="validationCustom02" name="password" placeholder="password" value="<?php echo !empty($password) ? $password : ''; ?>" required>
+
+                        <?php if (!empty($passwordError)) : ?>
+                            <span class="help-inline"><?php echo $passwordError; ?></span>
+                        <?php endif; ?>
+
+                        <div class="valid-feedback">
+                            Looks good!
+                        </div>
+                    </div>
+
+
 
 
                     <div class="col-12">

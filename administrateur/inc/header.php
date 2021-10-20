@@ -27,7 +27,7 @@
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
-                            <li><a class="dropdown-item" href="./administrateur">ADMIN</a></li>
+                            <li><a class="dropdown-item" href="./admin">ADMIN</a></li>
                             <li><a class="dropdown-item" href="deconnexion.php">DECONNEXION</a></li>
                         </ul>
                     </div>

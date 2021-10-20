@@ -1,119 +1,93 @@
 <?php
 session_start();
 ?>
-
-
-
 <!DOCTYPE html>
-<html>
+
+<!-- Opérateur ternaire -->
+<html lang="<?= !empty($_SESSION['lang']) ? $_SESSION['lang'] : 'en' ?>">
 
 <?php
 include('./inc/head.php');
 ?>
 
-<body class="bg-dark bg-opacity-50">
+<body>
+
     <?php
     include('./inc/header.php');
+
     ?>
-
-    <div class="container-fluid border border-dark pt-5 justify-content-center w-100">
-        <div class="row">
-            <h2 class="title text-center text-light">CRUD EN PHP</h2>
+    <div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+            <img src="..." class="rounded me-2" alt="...">
+            <strong class="me-auto">Bootstrap</strong>
+            <small>11 mins ago</small>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
         </div>
-        <br>
-        <br>
-
-        <div class="row text-light">
-            <a href="add.php" class="btn btn-success bg-primary w-25 m-1 mt-5 fw-bold">Créer un utilisateur :</a>
-
-            <div class="table-responsive">
-
-                <table class="table table-hover table-bordered">
-
-                    <!-- thead = designation tableau -->
-                    <thead class="bg-dark text-light text-center">
-                        <th>id</th>
-
-                        <th>image</th>
-
-                        <th>Name</th>
-
-                        <th>Firstname</th>
-
-                        <th>Age</th>
-
-                        <th>Tel</th>
-
-                        <th>Email</th>
-
-                        <th>Ville</th>
-
-                        <th>Comment</th>
-
-                        <th>Metier</th>
-
-                        <th>Url</th>
-
-                        <th>Edition</th>
-
-                    </thead>
-
-
-                    <br />
-                    <tbody class="text-dark fw-bold text-light">
-                        <?php
-                        include 'database.php'; //on inclut notre fichier de connection 
-
-                        $pdo = Database::connect(); //on se connecte à la base 
-
-                        $sql = 'SELECT * FROM users ORDER BY id DESC'; //on formule notre requete 
-                        foreach ($pdo->query($sql) as $row) :
-                            //on cree les lignes du tableau avec chaque valeur retournée
-                            //td= contenu du tableau + formule lien base de donnée
-                        ?>
-                            <br />
-                            <tr>
-                                <td class="text-light"><?= $row['id'] ?></td>
-                                <td class="text-light">
-                                    <?= !empty($row['image']) ? '<img src="uploads/images/' . $row['image'] . '"width="150">' : '' ?></td>
-                                <td class="text-light"><?= $row['name'] ?></td>
-                                <td class="text-light"><?= $row['firstname'] ?></td>
-                                <td class="text-light"><?= $row['age'] ?></td>
-                                <td class="text-light"><?= $row['tel'] ?></td>
-                                <td class="text-light"><?= $row['email'] ?></td>
-                                <td class="text-light"><?= $row['pays'] ?></td>
-                                <td class="text-light"><?= $row['comment'] ?></td>
-                                <td class="text-light"><?= $row['metier'] ?></td>
-                                <td class="text-light"><?= $row['url'] ?></td>
-                                <td class="text-light">
-                                    <a class="btn bg-dark text-light" href="edit.php?id='<?= $row['id'] ?>">Read</a>
-
-                                    <a class="btn btn-success m-1" href="update.php?id='<?= $row['id'] ?>">Update</a>
-
-                                    <a class="btn btn-danger" href="delete.php?id='<?= $row['id'] ?> ">Delete</a>
-
-                            </tr>
-                        <?php
-                        endforeach;
-                        Database::disconnect();
-                        //on se deconnecte de la base
-                        ?>
-                    </tbody>
-
-                </table>
-
-            </div>
-
+        <div class="toast-body">
+            Hello, world! This is a toast message.
         </div>
-
     </div>
+    <main class="container min-vh-100">
+
+        <div class="row">
+            <h1>Des milliers de microservices pour tous vos besoins, à partir de 5 €</h1>
+        </div>
+
+        <!-- Lister le contenu de la table "microservices" -->
+
+
+
+        <div class="row">
+
+            <?php
+
+            try {
+                $bdd = new PDO('mysql:host=localhost;dbname=mysql-training;charset=utf8', 'root', '');
+            } catch (Exception $e) {
+                die('Erreur : ' . $e->getMessage());
+            }
+
+            $reponse = $bdd->query("SELECT * FROM microservices LIMIT 6");
+
+            while ($donnees = $reponse->fetch()) :
+            ?>
+                <div class="col-md-4 p-2">
+                    <div class="border border-dark p-2 h-100">
+                        <h3><?= $donnees['titre'] ?></h3>
+                        <p><small><?= $donnees['auteur'] ?></small></p>
+                        <p><?= $donnees['contenu'] ?></p>
+                        <p>
+                            <a class="btn btn-light" href="#">À partir de <?= $donnees['prix'] ?> €</a>
+                        </p>
+                    </div>
+                </div>
+            <?php
+            endwhile;
+
+            $reponse->closeCursor();
+
+            ?>
+
+
+
+        </div>
+
+    </main>
 
     <?php
-    include('./inc/js.php');
+    include('./inc/footer.php');
     ?>
 
-
-
+    <script>
+        // TOASTS
+        console.log("Script is loading");
+        window.onload = (e) => {
+            console.log("windows is loading");
+            let myToast = document.querySelector(".toast"); // Selectionne l'id de myToast
+            let toasted = new bootstrap.Toast(myToast); // Initialise
+            toasted.show(); // show myToast
+        };
+    </script>
 </body>
 
 </html>

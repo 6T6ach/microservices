@@ -1,7 +1,7 @@
 <?php class Database
 {
     //lien avec la base de données
-    private static $dbName = 'crud-base';
+    private static $dbName = '5euros';
     private static $dbHost = 'localhost';
     private static $dbUsername = 'root';
     private static $dbUserPassword = '';

@@ -1,6 +1,8 @@
 <?php
 session_start();
 
+var_dump($_POST);
+
 require 'database.php';
 $id = null;
 if (!empty($_GET['id'])) {
@@ -22,9 +24,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST)) { // on initialise n
     $commentError = null;
     $metierError = null;
     $urlError = null; // On assigne nos valeurs 
+    $passwordError = null;
 
 
     $image = $_FILES['image'];
+
+    var_dump($_FILES);
+    var_dump($_FILES['image']['name']);
     $name = $_POST['name'];
     $firstname = $_POST['firstname'];
     $age = $_POST['age'];
@@ -34,6 +40,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST)) { // on initialise n
     $comment = $_POST['comment'];
     $metier = $_POST['metier'];
     $url = $_POST['url']; // On verifie que les champs sont remplis 
+    $password = $_POST['password'];
     $valid = true;
 
     if (empty($image)) {
@@ -86,15 +93,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST)) { // on initialise n
     if (empty($url)) {
         $urlError = 'Please enter website url';
         $valid = false;
+    }
+    if (empty($password)) {
+        $passwordError = 'Please enter your password';
+        $valid = false;
     } // mise à jour des donnés 
 
     if ($valid) {
         $pdo = Database::connect();
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-        $sql = "UPDATE users SET image = ?, name = ?, firstname = ?, age = ?,tel = ?, email = ?, pays = ?, comment = ?, metier = ?, url = ? WHERE id = ?";
+        $sql = "UPDATE users SET image = ?, name = ?, firstname = ?, age = ?,tel = ?, email = ?, pays = ?, comment = ?, metier = ?, url = ?, password = ? WHERE id = ?";
         $q = $pdo->prepare($sql);
-        $q->execute(array($image, $name, $firstname, $age, $tel, $email, $pays, $comment, $metier, $url, $id));
+        $q->execute(array($image, $name, $firstname, $age, $tel, $email, $pays, $comment, $metier, $url, $password, $id));
         Database::disconnect();
         header("Location: index.php");
     }
@@ -102,10 +113,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST)) { // on initialise n
 
     $pdo = Database::connect();
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    $sql = "SELECT * FROM users where id = ?";
+
+    $sql = "SELECT * FROM 'users' where id = ?";
     $q = $pdo->prepare($sql);
+
     $q->execute(array($id));
     $data = $q->fetch(PDO::FETCH_ASSOC);
+
     $image = $data['image'];
     $name = $data['name'];
     $firstname = $data['firstname'];
@@ -116,6 +130,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST)) { // on initialise n
     $comment = $data['comment'];
     $metier = $data['metier'];
     $url = $data['url'];
+    $password = $data['password'];
     Database::disconnect();
 }
 
@@ -147,13 +162,13 @@ include('./inc/head.php');
 
 
 
-        <form class="border border-3 border-dark mt-5 flex-wrap bg-light" method="GET" action="update.php?id=<?php echo $id; ?>">
+        <form class="border border-3 border-dark mt-5 flex-wrap bg-light" method="GET" action="update.php?id=<?= $id ?>">
 
             <div class="control-group m-3<?php echo !empty($imageError) ? 'error' : ''; ?>">
                 <label class="control-label fw-bold">Image :</label>
 
                 <div class="controls">
-                    <input class="form-control w-100" id="validationCustom11" name="image" type="file" placeholder="Image" value="<?php echo !empty($image) ? $image : ''; ?>">
+                    <input class="form-control w-100" id="validationCustom1" name="image" type="file" placeholder="Image" value="<?php echo !empty($image) ? $image : ''; ?>">
                     <?php if (!empty($imageError)) : ?>
                         <span class="help-inline"><?php echo $imageError; ?></span>
                     <?php endif; ?>
@@ -166,7 +181,7 @@ include('./inc/head.php');
                 <label class="control-label fw-bold">Name :</label>
 
                 <div class="controls">
-                    <input class="form-control w-100" id="validationCustom01" name="name" type="text" placeholder="Name" value="<?php echo !empty($name) ? $name : ''; ?>">
+                    <input class="form-control w-100" id="validationCustom2" name="name" type="text" placeholder="Name" value="<?php echo !empty($name) ? $name : ''; ?>">
                     <?php if (!empty($nameError)) : ?>
                         <span class="help-inline"><?php echo $nameError; ?></span>
                     <?php endif; ?>
@@ -181,7 +196,7 @@ include('./inc/head.php');
 
 
                 <div class="controls">
-                    <input class="form-control w-100" id="validationCustom01" type="text" name="firstname" value="<?php echo !empty($firstname) ? $firstname : ''; ?>">
+                    <input class="form-control w-100" id="validationCustom3" type="text" name="firstname" value="<?php echo !empty($firstname) ? $firstname : ''; ?>">
                     <?php
                     if (!empty($firstnameError)) : ?>
                         <span class="help-inline"><?php echo $firstnameError; ?></span>
@@ -199,7 +214,7 @@ include('./inc/head.php');
 
 
                 <div class="controls">
-                    <input class="form-control w-100" id="validationCustom01" type="date" name="age" value="<?php echo !empty($age) ? $age : ''; ?>">
+                    <input class="form-control w-100" id="validationCustom4" type="date" name="age" value="<?php echo !empty($age) ? $age : ''; ?>">
                     <?php
                     if (!empty($ageError)) : ?>
                         <span class="help-inline"><?php echo $ageError; ?></span>
@@ -217,7 +232,7 @@ include('./inc/head.php');
 
 
                 <div class="controls">
-                    <input class="form-control w-100" id="validationCustom01" name="email" type="text" placeholder="Email" value="<?php echo !empty($email) ? $email : ''; ?>">
+                    <input class="form-control w-100" id="validationCustom5" name="email" type="text" placeholder="Email" value="<?php echo !empty($email) ? $email : ''; ?>">
                     <?php
                     if (!empty($emailError)) : ?>
                         <span class="help-inline"><?php echo $emailError; ?></span>
@@ -236,7 +251,7 @@ include('./inc/head.php');
 
 
                 <div class="controls">
-                    <input class="form-control w-100" id="validationCustom01" name="tel" type="tel" placeholder="Telephone" value="<?php echo !empty($tel) ? $tel : ''; ?>">
+                    <input class="form-control w-100" id="validationCustom6" name="tel" type="tel" placeholder="Telephone" value="<?php echo !empty($tel) ? $tel : ''; ?>">
                     <?php
                     if (!empty($telError)) : ?>
                         <span class="help-inline"><?php echo $telError; ?></span>
@@ -254,7 +269,7 @@ include('./inc/head.php');
 
                 <label class="control-label fw-bold">Pays :</label><br>
 
-                <select class="form-control w-100" id="validationCustom01" name="pays">
+                <select class="form-control w-100" id="validationCustom7" name="pays">
 
                     <option value=" paris">Paris</option>
 
@@ -311,6 +326,7 @@ include('./inc/head.php');
             </div>
 
 
+
             <div class="control-group m-3 <?php echo !empty($commentError) ? 'error' : ''; ?>">
                 <label class="control-label fw-bold">Commentaire :</label>
 
@@ -324,9 +340,25 @@ include('./inc/head.php');
                     endif;
                     ?>
                 </div>
+            </div>
 
+            <div class="control-group m-3 <?php echo !empty($passwordError) ? 'error' : ''; ?>">
+                <label class="control-label fw-bold">Password :</label>
+
+
+                <div class="controls">
+                    <input class="w-100 form-control" id="validationCustom01" type="password" name="password" value="<?php echo !empty($password) ? $password : ''; ?>">
+                    <?php
+                    if (!empty($passwordError)) : ?>
+                        <span class="help-inline"><?php echo $passwordError; ?></span>
+                    <?php
+                    endif;
+                    ?>
+                </div>
 
             </div>
+
+
 
 
             <div class="form-actions text-center p-5">

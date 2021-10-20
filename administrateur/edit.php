@@ -56,7 +56,7 @@ include('./inc/head.php');
 
                     <div class="controls">
                         <label class="checkbox">
-                            <?php echo $data['image']; ?>
+                            <?php echo $_FILES['image']['name']; ?>
                         </label>
                     </div>
 
@@ -186,6 +186,20 @@ include('./inc/head.php');
 
 
                 </div>
+
+                <div class="control-group m-4">
+                    <label class="control-label fw-bold">Password :</label>
+
+
+                    <div class="controls">
+                        <label class="checkbox">
+                            <?php echo $data['password']; ?>
+                        </label>
+                    </div>
+
+                </div>
+
+
 
 
 
