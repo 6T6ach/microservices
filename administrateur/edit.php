@@ -37,7 +37,7 @@ include('../inc/head.php');
 <body class="bg-secondary bg-opacity-50">
 
     <?php
-    include('../inc/header.php');
+    include('./inc/header.php');
     ?>
 
 

@@ -9,12 +9,12 @@ include '../config.php';
 <html>
 
 <?php
-include('../inc/head.php');
+include('./inc/head.php');
 ?>
 
 <body>
     <?php
-    include SITE_ROOT . '../inc/header.php';
+    include('./inc/header.php');
     ?>
 
     <div class="container-fluid border border-dark pt-5 justify-content-center w-100 bg-dark bg-opacity-50">

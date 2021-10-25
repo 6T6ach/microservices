@@ -129,7 +129,7 @@ include('../inc/head.php');
 
 <body class="bg-secondary bg-opacity-25">
     <?php
-    include('../inc/header.php');
+    include('./inc/header.php');
     ?>
     <div class="container w-25 mt-5 mb-5">
         <div class="row text-center mt-5 flex-wrap">

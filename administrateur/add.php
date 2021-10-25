@@ -168,12 +168,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST)) {
 <html lang="en">
 
 <?php
-include('../inc/head.php');
+include('./inc/head.php');
 ?>
 
 <body class="bg-secondary bg-opacity-25">
     <?php
-    include('../inc/header.php');
+    include('./inc/header.php');
     ?>
 
     <main>

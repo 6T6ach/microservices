@@ -7,7 +7,7 @@
                 </a>
             </p>
             <?php
-            // if (isset($_SESSION['']) && $_SESSION[''] === 1) :
+            
                 if(isset($_SESSION['status']) && $_SESSION['status'] === 1):
             ?>
                 <!-- CONNECTÉ -->
@@ -38,7 +38,7 @@
             else :
                 ?>
                 <div class="col-md-6 d-flex justify-content-end align-items-center flex-wrap gap-2 ">
-                    <a class="link-dark" href="../connexion.php">CONNEXION</a>
+                    <a class="link-dark" href="./connexion.php">CONNEXION</a>
                     <a class="link-dark" href="inscription.php">INSCRIPTION</a>
                     <a class="btn btn-success" href="#">DEVENEZ VENDEUR</a>
 
