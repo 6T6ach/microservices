@@ -1,0 +1,11 @@
+*{
+    box-sizing: border-box;
+}
+
+.w-table{
+    height: 500px;
+}
+
+.main-delete{
+    height: 100vh;
+}

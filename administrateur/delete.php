@@ -24,42 +24,45 @@ if (!empty($_POST)) {
 <!DOCTYPE html>
 <html lang="en">
 
-<?php include('./inc/head.php') ?>
+<?php include('../inc/head.php'); ?>
 
 <body class="bg-secondary bg-opacity-25">
-    <?php include('./inc/header.php') ?>
+    <?php include('../inc/header.php'); ?>
 
+    <main class="main-delete">
+        <div class="container pt-5  w-50">
 
-    <div class="container-fluid pt-5  w-50">
+            <div class="row text-center">
+                <h3>Delete a user</h3>
+            </div>
 
-        <div class="row text-center pt-5">
-            <h3>Delete a user</h3>
-        </div>
+            <div class="border border-3 border-dark mt-5 p-5 bg-light">
 
-        <div class="span10 offset1 border border-3 border-dark pb-5 mt-5 bg-light">
-
-
-            <br />
-            <form class="form-horizontal d-block text-center" action="delete.php" method="post">
-
-                <input type="hidden" name="id" value="<?php echo $id; ?>" /><b class="text-danger">Are you sure to delete ?</b>
 
                 <br />
-                <div class="form-actions pt-5">
-                    <button type="submit" class="btn btn-danger">Yes</button>
-                    <a class="btn btn-secondary" href="index.php">No</a>
-                </div>
-                <p>
+                <form class="form-horizontal d-block text-center" action="delete.php" method="post">
 
-            </form>
-            <p>
+                    <input type="hidden" name="id" value="<?php echo $id; ?>" /><b class="text-danger">Are you sure to delete ?</b>
+
+                    <br />
+                    <div class="form-actions pt-5">
+                        <button type="submit" class="btn btn-danger">Yes</button>
+                        <a class="btn btn-secondary" href="index.php">No</a>
+                    </div>
+
+
+                </form>
+
+                <a class="btn btn-primary mt-5" href="./index.php">Retour</a>
+
+            </div>
+
         </div>
-        <p>
+    </main>
 
-
-    </div>
-    <p>
-        <!-- /container -->
+    <?php
+    include('../inc/footer.php');
+    ?>
 </body>
 
 </html>

@@ -9,27 +9,29 @@ include '../config.php';
 <html>
 
 <?php
-include('./inc/head.php');
+include('../inc/head.php');
 ?>
 
 <body>
     <?php
-    include SITE_ROOT.'/inc/header.php';
+    include SITE_ROOT . '../inc/header.php';
     ?>
 
-    <div class="container-fluid border border-dark pt-5 justify-content-center w-100 bg-dark bg-opacity-50">
+    <div class="container-fluid border border-dark pt-5 pb-5 justify-content-center w-100 bg-dark bg-opacity-50">
         <div class="row">
             <h2 class="title text-center text-light">CRUD EN PHP</h2>
         </div>
-        <br>
-        <br>
 
-        <div class="row text-light">
-            <a href="add.php" class="btn btn-success bg-primary w-25 m-1 mt-5 fw-bold">Créer un utilisateur :</a>
+        <div class="container">
+            <div class="row text-light">
+                <a href="add.php" class="btn btn-success bg-primary w-100 m-1 mt-5 fw-bold">Créer un utilisateur :</a>
+            </div>
+        </div>
 
-            <div class="table-responsive">
+        <div class="container">
+            <div class="table-responsive w-100">
 
-                <table class="table table-hover table-bordered">
+                <table class="table table-bordered">
 
                     <!-- thead = designation tableau -->
                     <thead class="bg-dark text-light text-center">
@@ -55,15 +57,16 @@ include('./inc/head.php');
 
                         <th>Url</th>
 
+                        <th>password</th>
+
                         <th>Edition</th>
 
-                        <th>password</th>
 
                     </thead>
 
 
                     <br />
-                    <tbody class="text-dark fw-bold text-light">
+                    <tbody class="fw-bold text-light">
                         <?php
                         include 'database.php'; //on inclut notre fichier de connection 
 
@@ -89,8 +92,9 @@ include('./inc/head.php');
                                 <td class="text-light"><?= $row['metier'] ?></td>
                                 <td class="text-light"><?= $row['url'] ?></td>
                                 <td class="text-light"><?= $row['password'] ?></td>
-                                <td class="text-light">
-                                    <a class="btn bg-dark text-light" href="edit.php?id=<?= $row['id'] ?>">Read</a>
+                                <td class="text-light d-flex gap-2 alogn-items-center">
+
+                                    <a class="btn btn-dark text-light" href="edit.php?id=<?= $row['id'] ?>">Read</a>
 
                                     <a class="btn btn-success m-1" href="update.php?id=<?= $row['id'] ?>">Update</a>
 
@@ -113,7 +117,7 @@ include('./inc/head.php');
     </div>
 
     <?php
-    include('./inc/js.php');
+    include('../inc/footer.php');
     ?>
 
 

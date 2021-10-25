@@ -3,7 +3,7 @@ session_start();
 
 var_dump($_POST);
 
-require 'database.php';
+require './database.php';
 $id = null;
 if (!empty($_GET['id'])) {
     $id = $_REQUEST['id'];
@@ -13,7 +13,8 @@ if (null == $id) {
     header("Location: index.php");
 }
 
-if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST)) { // on initialise nos erreurs 
+if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST)) {
+    // on initialise nos erreurs 
     $image = null;
     $nameError = null;
     $firstnameError = null;
@@ -23,7 +24,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST)) { // on initialise n
     $paysError = null;
     $commentError = null;
     $metierError = null;
-    $urlError = null; // On assigne nos valeurs 
+    $urlError = null;
+    // On assigne nos valeurs 
     $passwordError = null;
 
 
@@ -39,7 +41,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST)) { // on initialise n
     $pays = $_POST['pays'];
     $comment = $_POST['comment'];
     $metier = $_POST['metier'];
-    $url = $_POST['url']; // On verifie que les champs sont remplis 
+    $url = $_POST['url'];
+    // On verifie que les champs sont remplis 
     $password = $_POST['password'];
     $valid = true;
 
@@ -103,9 +106,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST)) { // on initialise n
         $pdo = Database::connect();
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-        $sql = "UPDATE users SET image = ?, name = ?, firstname = ?, age = ?,tel = ?, email = ?, pays = ?, comment = ?, metier = ?, url = ?, password = ? WHERE id = ?";
+        $sql = "UPDATE users SET image = ?, name = ?, firstname = ?, age = ?,tel = ?, email = ?, pays = ?, comment = ?, metier = ?, url = ?,type = ?, password = ? WHERE id = ?";
         $q = $pdo->prepare($sql);
-        $q->execute(array($image, $name, $firstname, $age, $tel, $email, $pays, $comment, $metier, $url, $password, $id));
+        $q->execute(array($image, $name, $firstname, $age, $tel, $email, $pays, $comment, $metier, $url, $password, $type, $id));
         Database::disconnect();
         header("Location: index.php");
     }
@@ -114,7 +117,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST)) { // on initialise n
     $pdo = Database::connect();
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    $sql = "SELECT * FROM 'users' where id = ?";
+    $sql = "SELECT * FROM users WHERE id = ?";
     $q = $pdo->prepare($sql);
 
     $q->execute(array($id));
@@ -130,6 +133,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST)) { // on initialise n
     $comment = $data['comment'];
     $metier = $data['metier'];
     $url = $data['url'];
+    // $type = $data['type'];
     $password = $data['password'];
     Database::disconnect();
 }
@@ -140,13 +144,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST)) { // on initialise n
 <html>
 
 <?php
-include('./inc/head.php');
+include('../inc/head.php');
 ?>
 
 <body class="bg-secondary bg-opacity-25">
 
     <?php
-    include('./inc/header.php');
+    include('../inc/header.php');
     ?>
 
 

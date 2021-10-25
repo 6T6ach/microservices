@@ -9,7 +9,8 @@ if (!empty($_GET['id'])) {
 
 if (null == $id) {
     header("Location:index.php");
-} else { //on lance la connection et la requete 
+} else { 
+    //on lance la connection et la requete 
     $pdo = Database::connect();
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION) .
         $sql = "SELECT * FROM users where id =?";
@@ -31,13 +32,13 @@ if (null == $id) {
 <html lang="en">
 
 <?php
-include('./inc/head.php');
+include('../inc/head.php');
 ?>
 
 <body class="bg-secondary bg-opacity-50">
 
     <?php
-    include('./inc/header.php');
+    include('../inc/header.php');
     ?>
 
 
@@ -219,7 +220,10 @@ include('./inc/head.php');
 
 
     </div>
-    <!-- /container -->
+
+    <?php
+    include('../inc/footer.php');
+    ?>
 </body>
 
 </html>

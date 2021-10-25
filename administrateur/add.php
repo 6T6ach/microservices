@@ -48,7 +48,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST)) {
 
         // Testons si le fichier n'est pas trop gros
         if ($_FILES['image']['size'] <= 5000000) {
-            echo "====> Taille Fichier < 1Mo 👍<br>";
+            echo "====> Taille Fichier < 5Mo 👍<br>";
 
             // Testons si l'extension est autorisée
             $infosfichier = pathinfo($_FILES['image']['name']);
@@ -145,7 +145,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST)) {
     if ($valid) {
         $pdo = Database::connect();
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $sql = "INSERT INTO users (image, name, firstname, age, tel, email, pays, comment, metier, url, password) values(?, ?, ?, ?, ? , ? , ? , ? , ?, ?, ?)";
+        $sql = "INSERT INTO users (image, name, firstname, age, tel, email, pays, comment, metier, url, password) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         $q = $pdo->prepare($sql);
         $q->execute(array($image, $name, $firstname, $age, $tel, $email, $pays, $comment, $metier, $url, $password));
         Database::disconnect();
@@ -164,12 +164,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST)) {
 <html lang="en">
 
 <?php
-include('./inc/head.php');
+include('../inc/head.php');
 ?>
 
 <body class="bg-secondary bg-opacity-25">
     <?php
-    include('./inc/header.php');
+    include('../inc/header.php');
     ?>
 
     <main>
@@ -182,7 +182,7 @@ include('./inc/head.php');
         </div>
 
         <div class="container">
-            <div class="row d-flex justify-content-center">
+            <div class="row d-flex justify-content-center mb-5">
 
                 <form class="row g-3 needs-validation w-75 border border-3 border-dark mt-5 pt-4 pb-5" novalidate method="POST" action="add.php" enctype="multipart/form-data">
                     <div class="col-md-4 <?php echo !empty($imageError) ? 'error' : ''; ?>">
@@ -373,6 +373,10 @@ include('./inc/head.php');
 
 
     </main>
+
+    <?php
+    include('../inc/footer.php');
+    ?>
 
 </body>
 

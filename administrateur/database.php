@@ -7,6 +7,7 @@
     private static $dbUserPassword = '';
     private static $cont = null;
 
+
     public function __construct()
     {
         die('Init function is not allowed');
