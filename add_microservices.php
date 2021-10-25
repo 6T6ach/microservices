@@ -114,7 +114,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST)) {
         $q = $pdo->prepare($sql);
         $q->execute(array($image, $titre, $contenu, $prix, $user_id, $category_id));
         Database::disconnect();
-        // header("Location: index.php");
+         header("Location: index.php");
     }
 }
 
