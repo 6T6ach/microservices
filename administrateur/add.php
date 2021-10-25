@@ -164,12 +164,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST)) {
 <html lang="en">
 
 <?php
-include('../inc/head.php');
+include('./inc/head.php');
 ?>
 
 <body class="bg-secondary bg-opacity-25">
     <?php
-    include('../inc/header.php');
+    include('./inc/header.php');
     ?>
 
     <main>
@@ -362,7 +362,7 @@ include('../inc/head.php');
 
 
                     <div class="col-12">
-                        <input type="submit" class="btn btn-success" name="submit" value="submit">
+                        <input type="submit" class="btn btn-dark" name="submit" value="submit">
 
                         <a class="btn" href="index.php">Retour</a>
                     </div>
@@ -375,7 +375,8 @@ include('../inc/head.php');
     </main>
 
     <?php
-    include('../inc/footer.php');
+    include('./inc/footer.php');
+
     ?>
 
 </body>

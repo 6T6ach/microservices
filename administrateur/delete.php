@@ -24,10 +24,10 @@ if (!empty($_POST)) {
 <!DOCTYPE html>
 <html lang="en">
 
-<?php include('../inc/head.php'); ?>
+<?php include('./inc/head.php'); ?>
 
 <body class="bg-secondary bg-opacity-25">
-    <?php include('../inc/header.php'); ?>
+    <?php include('./inc/header.php'); ?>
 
     <main class="main-delete">
         <div class="container pt-5  w-50">
@@ -61,7 +61,7 @@ if (!empty($_POST)) {
     </main>
 
     <?php
-    include('../inc/footer.php');
+    include('./inc/footer.php');
     ?>
 </body>
 

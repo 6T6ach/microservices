@@ -13,7 +13,7 @@ echo "</pre>";
 
 require('./administrateur/database.php');
 
-if (isset($_REQUEST['name'], $_REQUEST['email'], $_REQUEST['password'], $type['type'])) {
+if (isset($_REQUEST['name'], $_REQUEST['email'], $_REQUEST['password'], $_REQUEST['type'])) {
 
     // récupérer le nom d'utilisateur 
     $name = stripslashes($_REQUEST['name']);
@@ -32,24 +32,16 @@ if (isset($_REQUEST['name'], $_REQUEST['email'], $_REQUEST['password'], $type['t
     $password = stripslashes($_REQUEST['password']);
     $password = mysqli_real_escape_string($cont, $password);
 
-    // $query = "INSERT into `users` (name, email, type, password)
-    //     VALUES ('$name', '$email',$type, 'user', '" . hash('sha256', $password) . "')";
 
     // Vérifie si utilisateur est présent dans bdd
     $pdo = Database::connect();
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    $sql = "SELECT email, password FROM users WHERE email = $_POST[email] AND password = $_POST[password]";
+    $sql = "SELECT email, password, type FROM users WHERE email = $_POST[email] && password = $_POST[password] && type =$type";
     $q = $pdo->prepare($sql);
 
     $q->execute(array($id));
     $data = $q->fetch(PDO::FETCH_ASSOC);
-
-
-    // $sql= "SELECT email, password FROM users WHERE email = $_POST[email] AND password = $_POST[password]";
-    // $sql = $_POST->fetch();
-
-
 
 
     // BDD - Table user
@@ -73,12 +65,12 @@ if (isset($_REQUEST['name'], $_REQUEST['email'], $_REQUEST['password'], $type['t
             $_SESSION['name'] = $name;
             $_SESSION['lang'] = $lang;
             // Retour automatique à la page d'accueil
-            header('Location: index.php');
+            header('Location: ../index.php');
         } else {
             session_unset();
             $_SESSION['message'] = '⚠ Email ou Mot de passe inconnu';
 
-            header('Location: connexion.php');
+            header('Location: ../connexion.php');
         }
 
         // si user est admin
@@ -89,18 +81,18 @@ if (isset($_REQUEST['name'], $_REQUEST['email'], $_REQUEST['password'], $type['t
             $_SESSION['name'] = $name;
             $_SESSION['lang'] = $lang;
             // Retour automatique à la page d'accueil
-            header('Location: index.php');
+            header('Location: ./index.php');
         } else {
             session_unset();
             $_SESSION['message'] = '⚠ Email ou Mot de passe inconnu';
 
-            header('Location: connexion.php');
+            header('Location: ../connexion.php');
         }
     } else {
         session_unset();
         $_SESSION['message'] = '⚠ Veuillez remplir les 2 champs pour vous connecter';
 
-        header('Location: connexion.php');
+        header('Location: ../connexion.php');
     }
 }
 

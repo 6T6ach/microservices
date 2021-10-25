@@ -1,8 +1,8 @@
-<header>
-    <div class="container">
+<header class="bg-dark">
+    <div class="container bg-dark d-flex">
         <div class="row justify-content-between d-flex">
             <div class="col-md-4">
-                <a class="text-decoration-none text-dark fs-1 fw-bolder" href="index.php">
+                <a class="text-decoration-none text-light fs-1 fw-bolder" href="../index.php">
                     5euros.com
                 </a>
             </div>
@@ -12,9 +12,9 @@
             ?>
                 <!-- CONNECTÉ -->
                 <div class="col-md-4 d-flex flex-wrap align-items-center gap-2 ">
-                    <a class="link-dark" href="#">ACHAT</a>
-                    <a class="link-dark" href="add_microservices.php">Ajouter un microservices</a>
-                    <a class="link-dark" href="#">NOTIF</a>
+                    <a class="link-light" href="#">ACHAT</a>
+                    <a class="link-light" href="../add_microservices.php">Ajouter un microservices</a>
+                    <a class="link-light" href="#">NOTIF</a>
 
                     <!-- DEBUT  -->
                     <div class="dropdown">
@@ -45,9 +45,9 @@
                 ?>
                     <!-- CONNECTÉ -->
                     <div class="col-md-4 d-flex flex-wrap align-items-center gap-2 ">
-                        <a class="link-dark" href="#">ACHAT</a>
-                        <a class="link-dark" href="../add_microservices.php">Ajouter un microservices</a>
-                        <a class="link-dark" href="#">NOTIF</a>
+                        <a class="link-light" href="#">ACHAT</a>
+                        <a class="link-light" href="../add_microservices.php">Ajouter un microservices</a>
+                        <a class="link-light" href="#">NOTIF</a>
 
                         <!-- DEBUT  -->
                         <div class="dropdown">
@@ -61,7 +61,7 @@
                                 <li>
                                     <hr class="dropdown-divider">
                                 </li>
-                                <li><a class="dropdown-item" href="./administrateur">ADMIN</a></li>
+                                <li><a class="dropdown-item" href="./index">ADMIN</a></li>
                                 <li><a class="dropdown-item" href="../deconnexion.php">DECONNEXION</a></li>
                             </ul>
                         </div>
@@ -73,10 +73,11 @@
                 else :
                 ?>
                     <!-- DECONNECTÉ -->
-                    <div class="col-md-6 d-flex justify-content-end align-items-center flex-wrap gap-2 ">
-                        <a class="link-dark" href="">CONNEXION</a>
-                        <a class="link-dark" href="#">INSCRIPTION</a>
-                        <a class="btn btn-success" href="#"../
+                    <div class="col-md-7 d-flex justify-content-end align-items-center flex-wrap gap-2 ">
+                        <a class="link-light" href="../connexion.php">CONNEXION</a>
+                        <a class="link-light" href="#">INSCRIPTION</a>
+                        <a class="btn btn-success" href="#">DEVENEZ VENDEUR</a>
+
                     </div>
 
 
