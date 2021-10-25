@@ -1,9 +1,9 @@
 <?php
 session_start();
-
+require './administrateur/database.php';
 ?>
 
-<?php require './database.php';
+<?php
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST)) {
 
@@ -18,6 +18,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST)) {
     $commentError = '';
     $metierError = '';
     $urlError = '';
+    $passwordError = '';
     $roleError = '';
     $Error = '';
 
@@ -25,21 +26,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST)) {
     // on recupère nos valeurs 
     // Récupération du nom l'images
     $image = htmlspecialchars($_FILES['image']['name']);
-
     var_dump($_FILES);
     var_dump($_FILES['image']['name']);
+
     $name = htmlspecialchars(trim($_POST['name']));
     $firstname = htmlspecialchars(trim($_POST['firstname']));
     $age = htmlspecialchars(trim($_POST['age']));
     $tel = htmlspecialchars(trim($_POST['tel']));
     $email = htmlspecialchars(trim($_POST['email']));
-
     $pays = htmlspecialchars(trim($_POST['pays']));
     $comment = htmlspecialchars(trim($_POST['comment']));
     $metier = htmlspecialchars(trim($_POST['metier']));
     $url = htmlspecialchars(trim($_POST['url']));
     $password = htmlspecialchars(trim($_POST['password']));
-    $role = htmlspecialchars(trim($_POST['role']));
+    // $role = htmlspecialchars(trim($_POST['role']));
     var_dump($_REQUEST);
 
     // *************************************************************************
@@ -63,7 +63,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST)) {
 
                 // On peut valider le fichier et le stocker définitivement
 
-                move_uploaded_file($_FILES['image']['tmp_name'], 'uploads/images/' . basename($_FILES['image']['name']));
+                move_uploaded_file($_FILES['image']['tmp_name'], './administrateur/uploads/images' . basename($_FILES['image']['name']));
                 //  FIXME Attention la même image peut pas être téléversée 2 fois 
                 echo "====> Téléversement terminé 👍<br>";
             } else {
@@ -76,7 +76,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST)) {
 
     // *************************************************************************
 
-    // on vérifie nos champs 
+    // on vérifie nos champs et nous donne l'erreur
     $valid = true;
     if (empty($image)) {
         $imageError = 'Please insert un image';
@@ -144,14 +144,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST)) {
         $valid = false;
     }
 
+    if (empty($role)) {
+        $roleError = 'undefined role';
+        $valid = false;
+    }
+
     // si les données sont présentes et bonnes, on se connecte à la base 
     if ($valid) {
         $pdo = Database::connect();
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        // NOM DE COLONNES DANS LA BDD
-        $sql = "INSERT INTO users (image, name, firstname, age, tel, email, pays, comment, metier, url, password, type) values(?, ?, ?, ?, ? , ? , ? , ? , ?, ?, ?, ?)";
+        $sql = "INSERT INTO users (image, name, firstname, age, tel, email, pays, comment, metier, url, password) values(?, ?, ?, ?, ? , ? , ? , ? , ?, ?, ?)";
         $q = $pdo->prepare($sql);
-        $q->execute(array($image, $name, $firstname, $age, $tel, $email, $pays, $comment, $metier, $url, $password, $role));
+        $q->execute(array($image, $name, $firstname, $age, $tel, $email, $pays, $comment, $metier, $url, $password));
         Database::disconnect();
         header("Location: index.php");
     }
@@ -168,27 +172,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST)) {
 <html lang="en">
 
 <?php
-include('../inc/head.php');
+include('./inc/head.php');
 ?>
 
-<body class="bg-secondary bg-opacity-25">
+<body>
     <?php
-    include('../inc/header.php');
+    include('./inc/header.php');
     ?>
 
-    <main>
-        <div class="container-fluid mt-5 pt-4">
+    <main class="bg-secondary bg-opacity-25 mt-2">
+        <div class="container-fluid ">
 
             <div class="row">
 
-                <h1 class="text-center">Ajouter un contact</h1>
+                <h1 class="text-center">Inscription</h1>
             </div>
         </div>
 
         <div class="container">
             <div class="row d-flex justify-content-center">
 
-                <form class="row g-3 needs-validation w-75 border border-3 border-dark mt-5 pt-4 pb-5" novalidate method="POST" action="add.php" enctype="multipart/form-data">
+                <form class="row g-3 needs-validation w-75 border border-3 border-dark mt-5 pt-4 pb-5" novalidate method="POST" action="inscription.php" enctype="multipart/form-data">
                     <div class="col-md-4 <?php echo !empty($imageError) ? 'error' : ''; ?>">
 
                         <label for="validationCustom11" class="form-label"><b>Profil image :</b></label>
@@ -362,20 +366,6 @@ include('../inc/head.php');
                         </div>
                     </div>
 
-                    <div class="col-md-4 <?php echo !empty($roleError) ? 'error' : ''; ?>">
-                        <label for="validationCustom02" class="form-label"><b>role :</b></label>
-
-                        <input type="text" class="form-control" id="validationCustom02" name="role" placeholder="role" value="<?php echo !empty($role) ? $role : ''; ?>">
-
-                        <?php if (!empty($roleError)) : ?>
-                            <span class="help-inline"><?php echo $roleError; ?></span>
-                        <?php endif; ?>
-
-                        <div class="valid-feedback">
-                            Looks good!
-                        </div>
-                    </div>
-
 
 
 
@@ -391,11 +381,6 @@ include('../inc/head.php');
 
 
     </main>
-
-    <?php
-    include('../inc/js.php');
-    ?>
-
 
 </body>
 

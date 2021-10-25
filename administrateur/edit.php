@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-require('database.php'); //on appelle notre fichier de config 
+require('./database.php'); //on appelle notre fichier de config 
 $id = null;
 if (!empty($_GET['id'])) {
     $id = $_REQUEST['id'];
@@ -31,13 +31,13 @@ if (null == $id) {
 <html lang="en">
 
 <?php
-include('./inc/head.php');
+include('../inc/head.php');
 ?>
 
 <body class="bg-secondary bg-opacity-50">
 
     <?php
-    include('./inc/header.php');
+    include('../inc/header.php');
     ?>
 
 

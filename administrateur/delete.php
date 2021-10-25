@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-require 'database.php'; //lien base de données
+require './database.php'; //lien base de données
 $id = 0;
 if (!empty($_GET['id'])) {
     $id = $_REQUEST['id'];

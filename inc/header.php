@@ -7,7 +7,8 @@
                 </a>
             </p>
             <?php
-            if (isset($_SESSION['status']) && $_SESSION['status'] === 1) :
+            // if (isset($_SESSION['']) && $_SESSION[''] === 1) :
+                if(isset($_SESSION['status']) && $_SESSION['status'] === 1):
             ?>
                 <!-- CONNECTÉ -->
                 <div class="col-md-4 d-flex flex-wrap align-items-center gap-2 ">
@@ -16,9 +17,10 @@
                     <a class="link-dark" href="#">NOTIF</a>
 
                     <!-- DEBUT  -->
+                    </div>
                     <div class="dropdown">
                         <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
-                            <?= !empty($_SESSION['pseudo']) ? $_SESSION['pseudo'] : 'Anonyme' ?>
+                            <?= !empty($_REQUEST['name']) ? $_REQUEST['name'] : 'Anonyme' ?>
                         </a>
 
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
@@ -28,22 +30,23 @@
                                 <hr class="dropdown-divider">
                             </li>
                             <li><a class="dropdown-item" href="./administrateur">ADMIN</a></li>
-                            <li><a class="dropdown-item" href="deconnexion.php">DECONNEXION</a></li>
+                            <li><a class="dropdown-item" href="../deconnexion.php">DECONNEXION</a></li>
                         </ul>
                     </div>
+                     <!-- DECONNECTÉ -->
+                     <?php
+            else :
+                ?>
+                <div class="col-md-6 d-flex justify-content-end align-items-center flex-wrap gap-2 ">
+                    <a class="link-dark" href="../connexion.php">CONNEXION</a>
+                    <a class="link-dark" href="inscription.php">INSCRIPTION</a>
+                    <a class="btn btn-success" href="#">DEVENEZ VENDEUR</a>
+
+                
                     <!-- FIN -->
 
                 </div>
-            <?php
-            else :
-            ?>
-                <!-- DECONNECTÉ -->
-                <div class="col-md-6 d-flex justify-content-end align-items-center flex-wrap gap-2 ">
-                    <a class="link-dark" href="connexion.php">CONNEXION</a>
-                    <a class="link-dark" href="#">INSCRIPTION</a>
-                    <a class="btn btn-success" href="#">DEVENEZ VENDEUR</a>
-
-                </div>
+              
             <?php
             endif;
             ?>
@@ -53,8 +56,8 @@
 
     </div>
 
-    <nav class="container-fluid bg-dark mb-5" style="min-height: 50px;">
+    <!-- <nav class="container-fluid bg-dark mb-5" style="min-height: 50px;">
 
-    </nav>
+    </nav> -->
 
 </header>

@@ -5,5 +5,5 @@ session_start();
 session_destroy();
 
 // Retour automatique à la page d'accueil
-header('Location: index.php');
+header("Location: ./index.php");
 ?>
