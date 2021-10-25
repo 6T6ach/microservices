@@ -25,7 +25,7 @@ include('./inc/head.php');
         </div>
 
     </div> -->
-    <main class="container min-vh-100">
+    <main class="container min-vh-100 mt-5 mb-5">
 
         <div class="row">
             <h1>Des milliers de microservices pour tous vos besoins, à partir de 5 €</h1>

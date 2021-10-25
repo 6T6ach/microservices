@@ -1,6 +1,6 @@
-<header>
-    <div class="container">
-        <div class="row justify-content-between d-flex">
+<header class="border-bottom border-3 border-dark">
+    <div class="container d-flex">
+        <div class="row justify-content-between">
             <div class="col-md-4">
                 <a class="text-decoration-none text-dark fs-1 fw-bolder" href="index.php">
                     5euros.com
