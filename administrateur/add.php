@@ -36,6 +36,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST)) {
     $comment = htmlspecialchars(trim($_POST['comment']));
     $metier = htmlspecialchars(trim($_POST['metier']));
     $url = htmlspecialchars(trim($_POST['url']));
+    $type = htmlspecialchars(trim($_POST['type']));
     $password = htmlspecialchars(trim($_POST['password']));
     var_dump($_REQUEST);
 
@@ -145,9 +146,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST)) {
     if ($valid) {
         $pdo = Database::connect();
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $sql = "INSERT INTO users (image, name, firstname, age, tel, email, pays, comment, metier, url, password) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO users (image, name, firstname, age, tel, email, pays, comment, metier, url, type, password) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         $q = $pdo->prepare($sql);
-        $q->execute(array($image, $name, $firstname, $age, $tel, $email, $pays, $comment, $metier, $url, $password));
+        $q->execute(array($image, $name, $firstname, $age, $tel, $email, $pays, $comment, $metier, $url, $type, $password));
         Database::disconnect();
         header("Location: index.php");
     }
